@@ -1,8 +1,20 @@
+import Formulario from "./components/Formulario.tsx";
+
 function App() {
 
     return (
         <>
-            <h1 className="text-center uppercase text-2xl">Contador</h1>
+            <header className="bg-lime-600 py-3">
+                <div className="max-w-4xl mx-auto flex justify-between">
+                    <h1 className="text-center text-lg font-bold text-white uppercase">Contador de Calorias</h1>
+                </div>
+            </header>
+
+            <section className="bg-lime-500 py-20 px-5">
+                <div className="max-w-4xl mx-auto">
+                    <Formulario />
+                </div>
+            </section>
         </>
     )
 }

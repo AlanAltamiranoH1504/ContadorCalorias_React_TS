@@ -1,22 +1,24 @@
 import {Fragment, useState} from "react";
 import {categories} from "../data/categorias.ts";
+import type {Actividad} from "../types";
 
 const Formulario = () => {
-    const [formulario, setFormulario] = useState({
-        categoria: "",
+    const [formulario, setFormulario] = useState<Actividad>({
+        categoria: 0,
         actividad: "",
-        calorias: ""
+        calorias: 0
     });
 
-    function guardarFormulario(e) {
+    function guardarFormulario(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) {
+        const esCampoNumerico = ["categoria", "calorias"].includes(e.target.name);
         setFormulario({
-            ...formulario, [e.target.name]: e.target.value
+            ...formulario, [e.target.name]: esCampoNumerico ? Number(e.target.value) : e.target.value
         });
     }
 
     function validarFormulario() {
         const {categoria, actividad, calorias} = formulario;
-        if (categoria.trim() === "" || actividad.trim() === "" || calorias.trim() === "") {
+        if (categoria === 0 || actividad.trim() === "" || calorias === 0) {
             return true;
         } else {
             return false;
@@ -66,8 +68,9 @@ const Formulario = () => {
                 </div>
                 <div className="mb-5">
                     <input type="submit"
+                           disabled={validarFormulario()}
                            className="border p-2 rounded-lg w-full bg-gray-800 text-white uppercase font-bold hover:bg-gray-900 cursor-pointer"
-                           value={formulario.categoria == 1 ? "Guardar Comida" : "Guardar Ejercicio"}/>
+                           value={formulario.categoria === 1 ? "Guardar Comida" : "Guardar Ejercicio"}/>
                 </div>
             </form>
         </Fragment>
