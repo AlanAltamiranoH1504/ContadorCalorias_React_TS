@@ -1,4 +1,4 @@
-import {useReducer} from "react";
+import {Fragment, useReducer} from "react";
 import Formulario from "./components/Formulario.tsx";
 import {activityReducer, initialState} from "./reducers/actitvityReducer.ts";
 import ActividadDetalles from "./components/ActividadDetalles.tsx";
@@ -17,13 +17,24 @@ function App() {
                 <div className="max-w-4xl mx-auto">
                     <Formulario
                         dispatch={dispatch}
+                        state={state}
                     />
                 </div>
             </section>
             <section className="p-10 mx-auto max-w-4xl">
-                <ActividadDetalles
-                    actividades={state.actividades}
-                />
+                <>
+                    {state.actividades.length > 0 ? (
+                        <ActividadDetalles
+                            actividades={state.actividades}
+                            dispatch={dispatch}
+                        />
+                    ) : (
+                        <Fragment>
+                            <h2 className="text-center text-2xl font-bold uppercase">No hay actividades registradas</h2>
+                        </Fragment>
+                    )}
+                </>
+
             </section>
         </>
     )

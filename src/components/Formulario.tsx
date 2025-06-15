@@ -1,21 +1,30 @@
-import {type Dispatch, Fragment, useState} from "react";
+import {type Dispatch, Fragment, useEffect, useState} from "react";
 import {v4 as uuidv4} from "uuid";
 
 import {categories} from "../data/categorias.ts";
 import type {Actividad} from "../types";
-import type {ActivityActions} from "../reducers/actitvityReducer.ts";
+import type {ActivityActions, ActivityState} from "../reducers/actitvityReducer.ts";
 
 type FormularioProps = {
     dispatch: Dispatch<ActivityActions>
+    state: ActivityState
 }
 
-const Formulario = ({dispatch}: FormularioProps) => {
+const Formulario = ({dispatch, state}: FormularioProps) => {
     const [formulario, setFormulario] = useState<Actividad>({
         id: uuidv4(),
         categoria: 0,
         actividad: "",
         calorias: 0
     });
+    useEffect(() => {
+        if (state.actividadId) {
+            const selectedActividad = state.actividades.filter((actividad) => {
+                return actividad.id === state.actividadId
+            })[0];
+            setFormulario(selectedActividad);
+        }
+    }, [state.actividadId]);
 
     function guardarFormulario(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) {
         const esCampoNumerico = ["categoria", "calorias"].includes(e.target.name);
@@ -59,6 +68,7 @@ const Formulario = ({dispatch}: FormularioProps) => {
                         onChange={(e) => {
                             guardarFormulario(e);
                         }}
+                        value={formulario.categoria}
                         id="categoria" name="categoria"
                         className="w-full p-2 rounded-lg font-semibold border border-slate-300 bg-white">
                         <option value="">--- Selecciona una Opción ---</option>
@@ -77,6 +87,7 @@ const Formulario = ({dispatch}: FormularioProps) => {
                         onChange={(e) => {
                             guardarFormulario(e);
                         }}
+                        value={formulario.actividad}
                         name="actividad" type="text" className="border p-2 w-full rounded-lg border border-slate-300"
                         placeholder="Ej. Comida, Ejercicio, Jugos frutales, Pesas"/>
                 </div>
@@ -86,6 +97,7 @@ const Formulario = ({dispatch}: FormularioProps) => {
                         onChange={(e) => {
                             guardarFormulario(e);
                         }}
+                        value={formulario.calorias}
                         name="calorias" type="text" className="border p-2 w-full border border-slate-300 rounded-lg"
                         placeholder="Número de calorias de la actividad"/>
                 </div>

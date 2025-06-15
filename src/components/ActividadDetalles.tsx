@@ -2,12 +2,15 @@ import {Fragment} from "react";
 import {PencilSquareIcon} from "@heroicons/react/24/outline"
 
 import type {Actividad} from "../types";
+import type {ActivityActions} from "../reducers/actitvityReducer.ts";
+import {XCircleIcon} from "@heroicons/react/16/solid";
 
 type ActividadDetallesProps = {
     actividades: Actividad[]
+    dispatch: React.ActionDispatch<[action: ActivityActions]>
 }
 
-const ActividadDetalles = ({actividades}: ActividadDetallesProps) => {
+const ActividadDetalles = ({actividades, dispatch}: ActividadDetallesProps) => {
     return (
         <Fragment>
             <h2 className="text-4xl font-bold text-slate-600 text-center">Comidas y Actividades</h2>
@@ -21,7 +24,16 @@ const ActividadDetalles = ({actividades}: ActividadDetallesProps) => {
                             </p>
                         </div>
                         <div className="flex gap-5 items-center">
-                            <button><PencilSquareIcon className="h-8 w-8 text-gray-800"/></button>
+                            <button
+                                onClick={() => {
+                                    dispatch({type: "set_actividadId", payload: {id: actividad.id}})
+                                }}
+                            ><PencilSquareIcon className="h-8 w-8 text-gray-800"/></button>
+                            <button
+                                onClick={() => {
+                                    dispatch({type: "delete_actividad", payload: {id: actividad.id}})
+                                }}
+                            ><XCircleIcon className="h-8 w-8 text-red-800"/></button>
                         </div>
                     </div>
                 );
