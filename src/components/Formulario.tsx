@@ -1,9 +1,17 @@
-import {Fragment, useState} from "react";
+import {type Dispatch, Fragment, useState} from "react";
+import {v4 as uuidv4} from "uuid";
+
 import {categories} from "../data/categorias.ts";
 import type {Actividad} from "../types";
+import type {ActivityActions} from "../reducers/actitvityReducer.ts";
 
-const Formulario = () => {
+type FormularioProps = {
+    dispatch: Dispatch<ActivityActions>
+}
+
+const Formulario = ({dispatch}: FormularioProps) => {
     const [formulario, setFormulario] = useState<Actividad>({
+        id: uuidv4(),
         categoria: 0,
         actividad: "",
         calorias: 0
@@ -25,10 +33,25 @@ const Formulario = () => {
         }
     }
 
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        dispatch({type: "save_actividad", payload: {newActividad: formulario}})
+        setFormulario({
+            ...formulario,
+            id: uuidv4(),
+            categoria: 0,
+            actividad: "",
+            calorias: 0
+        })
+    }
+
     return (
         <Fragment>
             <form
                 className="space-y-5 bg-white shadow-md rounded-lg p-10"
+                onSubmit={(e) => {
+                    handleSubmit(e);
+                }}
             >
                 <div className="mb-5">
                     <label htmlFor="categoria" className="mb-3 block font-bold text-xl uppercase">Categoria:</label>
@@ -69,11 +92,12 @@ const Formulario = () => {
                 <div className="mb-5">
                     <input type="submit"
                            disabled={validarFormulario()}
-                           className="border p-2 rounded-lg w-full bg-gray-800 text-white uppercase font-bold hover:bg-gray-900 cursor-pointer"
+                           className="border p-2 rounded-lg w-full bg-gray-800 text-white uppercase font-bold  cursor-pointer"
                            value={formulario.categoria === 1 ? "Guardar Comida" : "Guardar Ejercicio"}/>
                 </div>
             </form>
         </Fragment>
-    );
+    )
+        ;
 }
 export default Formulario;

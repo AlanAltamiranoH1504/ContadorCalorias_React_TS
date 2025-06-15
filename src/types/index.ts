@@ -4,6 +4,7 @@ export type Categoria = {
 }
 
 export type Actividad = {
+    id: string;
     categoria: number;
     actividad: string;
     calorias: number;
