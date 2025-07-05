@@ -1,20 +1,24 @@
 import {Fragment} from "react";
 import {PencilSquareIcon} from "@heroicons/react/24/outline"
 
-import type {Actividad} from "../types";
-import type {ActivityActions} from "../reducers/actitvityReducer.ts";
+// import type {Actividad} from "../types";
+// import type {ActivityActions} from "../reducers/actitvityReducer.ts";
 import {XCircleIcon} from "@heroicons/react/16/solid";
+import {useActividad} from "../hooks/useActividad.ts";
 
-type ActividadDetallesProps = {
-    actividades: Actividad[]
-    dispatch: React.ActionDispatch<[action: ActivityActions]>
-}
+// type ActividadDetallesProps = {
+//     actividades: Actividad[]
+//     dispatch: React.ActionDispatch<[action: ActivityActions]>
+// }
 
-const ActividadDetalles = ({actividades, dispatch}: ActividadDetallesProps) => {
+// const ActividadDetalles = ({actividades, dispatch}: ActividadDetallesProps) => {
+const ActividadDetalles = () => {
+
+    const {state, dispatch} = useActividad();
     return (
         <Fragment>
             <h2 className="text-4xl font-bold text-slate-600 text-center">Comidas y Actividades</h2>
-            {actividades.map((actividad) => {
+            {state.actividades.map((actividad) => {
                 return (
                     <div key={actividad.id} className="px-5 py-10 bg-white mt-5 flex justify-between shadow">
                         <div className="space-y-2 relative">

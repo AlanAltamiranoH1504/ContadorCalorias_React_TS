@@ -1,16 +1,21 @@
 import {Fragment} from "react";
-import type {Actividad} from "../types";
-type EstadisticasCaloriasProps = {
-    actividades: Actividad[]
-}
-const EstadisticasCalorias = ({actividades}: EstadisticasCaloriasProps) => {
-    const caloriasQuemadas = actividades.filter((actividad) => {
+import {useActividad} from "../hooks/useActividad.ts";
+
+// import type {Actividad} from "../types";
+// type EstadisticasCaloriasProps = {
+//     actividades: Actividad[]
+// }
+// const EstadisticasCalorias = ({actividades}: EstadisticasCaloriasProps) => {
+
+const EstadisticasCalorias = () => {
+    const {state} = useActividad();
+    const caloriasQuemadas = state.actividades.filter((actividad) => {
         return actividad.categoria === 2;
     }).reduce((acumulador, actividad) => {
         return acumulador += actividad.calorias;
     }, 0);
 
-    const caloriasConsumidas = actividades.filter((actividad) => {
+    const caloriasConsumidas = state.actividades.filter((actividad) => {
         return actividad.categoria === 1;
     }).reduce((acumulador, actividad) => {
         return acumulador += actividad.calorias

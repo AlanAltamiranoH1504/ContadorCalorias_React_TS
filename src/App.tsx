@@ -1,11 +1,13 @@
-import {Fragment, useReducer, useEffect} from "react";
+import {Fragment, useEffect} from "react";
 import Formulario from "./components/Formulario.tsx";
-import {activityReducer, initialState} from "./reducers/actitvityReducer.ts";
+// import {activityReducer, initialState} from "./reducers/actitvityReducer.ts";
 import ActividadDetalles from "./components/ActividadDetalles.tsx";
 import EstadisticasCalorias from "./components/EstadisticasCalorias.tsx";
+import {useActividad} from "./hooks/useActividad.ts";
 
 function App() {
-    const [state, dispatch] = useReducer(activityReducer, initialState);
+    // const [state, dispatch] = useReducer(activityReducer, initialState);
+    const {state, dispatch} = useActividad();
 
     useEffect(() => {
         localStorage.setItem("actividades", JSON.stringify(state.actividades));
@@ -43,7 +45,7 @@ function App() {
             <section className="bg-gray-800 py-10">
                 <div className="max-w-lg mx-auto">
                     <EstadisticasCalorias
-                        actividades={state.actividades}
+                        // actividades={state.actividades}
                     />
                 </div>
             </section>
@@ -52,8 +54,8 @@ function App() {
                 <>
                     {state.actividades.length > 0 ? (
                         <ActividadDetalles
-                            actividades={state.actividades}
-                            dispatch={dispatch}
+                            // actividades={state.actividades}
+                            // dispatch={dispatch}
                         />
                     ) : (
                         <Fragment>
